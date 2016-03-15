@@ -1,14 +1,18 @@
 Posts = new Mongo.Collection("posts");
 Settings = new Mongo.Collection("settings");
 
-// var settingCount = Settings.find({name: 'postApproval'}, {fields: {state: 1}}).count();
-// console.log(settingCount);
-// if(!(settingCount > 0)) {
-//   Meteor.call("addSetting", "postApproval", true);
-// }
-
 if(Meteor.isServer) {
-  Roles.addUsersToRoles("QDmj8TYMDhw9Ej5rc", 'super-admin');
+  Roles.addUsersToRoles("uyNQ9cu2e8vymcpTX", 'super-admin');
+  Meteor.startup(function() {
+    var settingCount = Settings.find({name: 'postApproval'}).count();
+    console.log(settingCount);
+    if(!(settingCount > 0)) {
+      Settings.insert({
+        name: "postApproval",
+        state: true
+      });
+    }
+  });
 }
 
 if (Meteor.isClient) {
@@ -38,21 +42,23 @@ if (Meteor.isClient) {
       disabled: true,
       text:
       `
-        v0.1.0: First release
+        v0.1.0: First release.
         <br>
-        v0.1.1: Fixed points calculations, mobile view
+        v0.1.1: Fixed points calculations, mobile view.
         <br>
-        v0.1.2: Fixed top menu bar, changed vote colors, easter egg 1
+        v0.1.2: Fixed top menu bar, changed vote colors, easter egg 1.
         <br>
-        v0.1.3: Fixed menu alert spacing, character limit, removing posts, easter egg 2
+        v0.1.3: Fixed menu alert spacing, character limit, removing posts, easter egg 2.
         <br>
-        v0.1.4: Restructured alert code, added 24h filter, added post approval
+        v0.1.4: Restructured alert code, added 24h filter, added post approval.
         <br>
-        v0.1.5: Restructured admin system, added pinned posts, secured collections
+        v0.1.5: Restructured admin system, added pinned posts, secured collections.
         <br>
-        v0.1.6: Admin hotfix
+        v0.1.6: Admin hotfix.
         <br>
-        v0.1.7: Added toggle for post approval, added settings, fixed double post IDs, added admin security, new admin system
+        v0.1.7: Added toggle for post approval, added settings, fixed double post IDs, added admin security, new admin system.
+        <br>
+        v0.1.8: Fixed settings collection, fixed pinned posts dissapearing.
       `
     },
     {
@@ -100,19 +106,19 @@ if (Meteor.isClient) {
       dayAgo.setDate(dayAgo.getDate() - 1);
       if(Roles.userIsInRole(Meteor.userId(), ['super-admin', 'admin'])) {
         if (Session.get("sort") == "new") {
-          return Posts.find({date: {$gt: dayAgo}, status: "approved"}, {sort: {pinned: -1, date: -1}});
+          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status: "approved"}, {sort: {pinned: -1, date: -1}});
         } else if(Session.get("sort") == "status") {
-          return Posts.find({date: {$gt: dayAgo}, status: "pending"}, {sort: {status: -1}});
+          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status: "pending"}, {sort: {status: -1}});
         } else if(Session.get("sort") == "all"){
           return Posts.find({}, {sort: {points: -1}});
         } else {
-          return Posts.find({date: {$gt: dayAgo}, status: "approved"}, {sort: {pinned: -1, points: -1}});
+          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status: "approved"}, {sort: {pinned: -1, points: -1}});
         }
       } else {
         if (Session.get("sort") == "new") {
-          return Posts.find({date: {$gt: dayAgo}, status: "approved"}, {sort: {pinned: -1, date: -1}});
+          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status : "approved"}, {sort: {pinned: -1, date: -1}});
         } else {
-          return Posts.find({date: {$gt: dayAgo}, status: "approved"}, {sort: {pinned: -1, points: -1}});
+          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status : "approved"}, {sort: {pinned: -1, points: -1}});
         }
       }
     },
