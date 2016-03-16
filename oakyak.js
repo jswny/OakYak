@@ -74,7 +74,7 @@ if (Meteor.isClient) {
         <br>
         v0.1.8: Fixed settings collection, fixed pinned posts dissapearing.
         <br>
-        v0.1.9: Added post dates, restructured code, further secured collections with subscriptions
+        v0.1.9: Added post dates, restructured code, further secured collections with subscriptions.
       `
     },
     {
@@ -118,6 +118,8 @@ if (Meteor.isClient) {
   Template.body.helpers({
     posts: function() {
       Session.setDefault("sort", "hot");
+      var dayAgo = new Date();
+      dayAgo.setDate(dayAgo.getDate() - 1);
       if(Roles.userIsInRole(Meteor.userId(), ['super-admin', 'admin'])) {
         if (Session.get("sort") == "new") {
           return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status: "approved"}, {sort: {pinned: -1, date: -1}});
