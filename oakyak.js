@@ -3,9 +3,21 @@ Settings = new Mongo.Collection("settings");
 
 if(Meteor.isServer) {
   Roles.addUsersToRoles("uyNQ9cu2e8vymcpTX", 'super-admin');
+  Meteor.publish('posts', function() {
+    if(Roles.userIsInRole(this.userId, ['super-admin', 'admin'])) {
+      return Posts.find();
+    } else {
+      var dayAgo = new Date();
+      dayAgo.setDate(dayAgo.getDate() - 1);
+      return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status: "approved"});
+    }
+  });
+  Meteor.publish('settings', function() {
+    return Settings.find();
+  });
+
   Meteor.startup(function() {
     var settingCount = Settings.find({name: 'postApproval'}).count();
-    console.log(settingCount);
     if(!(settingCount > 0)) {
       Settings.insert({
         name: "postApproval",
@@ -16,6 +28,8 @@ if(Meteor.isServer) {
 }
 
 if (Meteor.isClient) {
+  Meteor.subscribe('posts');
+  Meteor.subscribe('settings');
   Alerts = new Mongo.Collection(null);
   var alerts = [
     {
@@ -59,6 +73,8 @@ if (Meteor.isClient) {
         v0.1.7: Added toggle for post approval, added settings, fixed double post IDs, added admin security, new admin system.
         <br>
         v0.1.8: Fixed settings collection, fixed pinned posts dissapearing.
+        <br>
+        v0.1.9: Added post dates, restructured code, further secured collections with subscriptions
       `
     },
     {
@@ -101,9 +117,7 @@ if (Meteor.isClient) {
 
   Template.body.helpers({
     posts: function() {
-      var dayAgo = new Date();
       Session.setDefault("sort", "hot");
-      dayAgo.setDate(dayAgo.getDate() - 1);
       if(Roles.userIsInRole(Meteor.userId(), ['super-admin', 'admin'])) {
         if (Session.get("sort") == "new") {
           return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status: "approved"}, {sort: {pinned: -1, date: -1}});
@@ -116,9 +130,9 @@ if (Meteor.isClient) {
         }
       } else {
         if (Session.get("sort") == "new") {
-          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status : "approved"}, {sort: {pinned: -1, date: -1}});
+          return Posts.find({}, {sort: {pinned: -1, date: -1}});
         } else {
-          return Posts.find({$or: [{pinned: true}, {date: {$gt: dayAgo}}], status : "approved"}, {sort: {pinned: -1, points: -1}});
+          return Posts.find({}, {sort: {pinned: -1, points: -1}});
         }
       }
     },
@@ -255,7 +269,6 @@ if (Meteor.isClient) {
         tempPoints = this.points - 1;
         Meteor.call("updatePoints", this._id, this.points - 1);
       }
-      console.log(this.points);
       if(tempPoints <= -5) {
         Meteor.call("updateStatus", this._id, "removed");
       }
@@ -303,6 +316,9 @@ if (Meteor.isClient) {
     },
     isRemoved: function() {
       return this.status == "removed";
+    },
+    formattedDate: function() {
+      return timeSince(this.date);
     }
   });
 

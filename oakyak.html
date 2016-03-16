@@ -13,7 +13,7 @@
       <div class="panel-heading header">
         <span class="glyphicon glyphicon-tree-deciduous" id="oak-tree" title="Info" aria-hidden="true"></span>
         <strong>OakYak</strong>
-        <a id="version" href="#">v0.1.6</a>
+        <a id="version" href="#">v0.1.9</a>
         {{#if login}}
           {{> loginButtons}}
         {{/if}}
@@ -97,10 +97,15 @@
         <div class="post-content">
           <span class="text">{{text}}</span>
         </div>
+        <div class="date-formatted">
+          <span class="date-formatted-text">
+            {{formattedDate}}
+          </span>
+        </div>
       </div>
       {{#if isAdmin}}
         <div class="post-footer">
-          <div class="dropdown">
+          <div class="dropdown post-operations">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               Actions
               <span class="caret"></span>

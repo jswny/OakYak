@@ -2,6 +2,22 @@
   margin-top: 3%;
 }
 
+.post-operations {
+  float: right;
+  display: inline-block;
+}
+
+.date-formatted {
+  color: #3399ff;
+  position: relative;
+}
+
+.date-formatted-text {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
 .post-input {
   display: inline-block;
 }
@@ -40,7 +56,7 @@
 .post-footer {
   width: 100%;
   display: inline-block;
-  text-align: right;
+  margin-top: 15px;
 }
 
 .custom-alert-info {
