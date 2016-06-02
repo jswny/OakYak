@@ -15,6 +15,7 @@ class App extends Component {
 
 		Posts.insert({
 			text,
+			points: 0,
 			createdAt: new Date()
 		});
 
@@ -31,13 +32,13 @@ class App extends Component {
 		return (
 			<div className="container">
 				<header>
-					<h1>Posts List</h1>
+					<h1>Yaq</h1>
 
 					<form className="new-post" onSubmit={this.handleSubmit.bind(this)} >
 						<input
 							type="text"
 							ref="textInput"
-							placeholder="Type to add new posts"
+							placeholder="Type to add a new post"
 						/>
 					</form>
 				</header>
