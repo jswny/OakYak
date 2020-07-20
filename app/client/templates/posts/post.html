@@ -1,0 +1,54 @@
+<template name="post">
+  <div class="panel panel-default post-{{status}}">
+    <div class="panel-body">
+      <div class="post-header">
+        <div class="post-vote">
+          {{#if isPinned}}
+            <i title="Pinned post" class="fa fa-thumb-tack post-pin"></i>
+          {{else}}
+            <label class="vote-buttons">
+              <input id="upvote" type="radio" disabled="{{#if isUpButtonDisabled}}disabled{{/if}}" name="vote"/>
+              <i class="fa fa-arrow-up {{#if isUpButtonDisabled}}clicked-vote-up{{/if}}"></i>
+            </label>
+            <div class="point-value"><strong>{{points}}</strong></div>
+            <label class="vote-buttons">
+              <input id="downvote" type="radio" disabled="{{#if isDownButtonDisabled}}disabled{{/if}}" name="vote"/>
+              <i class="fa fa-arrow-down {{#if isDownButtonDisabled}}clicked-vote-down{{/if}}"></i>
+            </label>
+          {{/if}}
+        </div>
+        <div class="post-content">
+          <span class="text">{{text}}</span>
+        </div>
+        <div class="date-formatted">
+          <span class="date-formatted-text">
+            {{formattedDate}}
+          </span>
+        </div>
+      </div>
+      {{#if isAdmin}}
+        <div class="post-footer">
+          <div class="dropdown post-operations">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Actions
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+              <li><a href="#" class="post-toggle-pin">
+                {{#if isPinned}}
+                  Unpin
+                {{else}}
+                  Pin
+                {{/if}}
+              </a></li>
+              <li role="separator" class="divider"></li>
+              <li class="{{#if isApproved}}disabled{{/if}}"><a href="#" class="post-approve">Approve</a></li>
+              <li class="{{#if isPending}}disabled{{/if}}"><a href="#" class="post-pend">Pend</a></li>
+              <li class="{{#if isRemoved}}disabled{{/if}}"><a href="#" class="post-remove">Remove</a></li>
+            </ul>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</template>

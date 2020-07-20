@@ -1,0 +1,12 @@
+<template name="customAlert">
+  <div class="row">
+    <div class="col-lg-6 top-menu">
+      <div class="alert alert-{{alertType}} {{#if dismissable}}alert-dismissible{{/if}} custom-alert-{{alertType}}" role="alert">
+        {{#if dismissable}}
+          <button type="button" class="close close-custom-alert" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{/if}}
+        {{{text}}}
+      </div>
+    </div>
+  </div>
+</template>

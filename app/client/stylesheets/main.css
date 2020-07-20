@@ -1,0 +1,115 @@
+.container {
+  margin-top: 3%;
+}
+
+.post-operations {
+  float: right;
+  display: inline-block;
+}
+
+.date-formatted {
+  color: #3399ff;
+  position: relative;
+}
+
+.date-formatted-text {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+.post-input {
+  display: inline-block;
+}
+
+.top-menu {
+  width: 100% !important;
+}
+
+.admin-buttons {
+  margin-top: 15px;
+}
+
+.post-pending {
+  background-color: #fcf8e3 !important;
+}
+
+.post-removed {
+  background-color: #f2dede !important;
+}
+
+.post-pin {
+  color: #3399ff;
+  vertical-align: middle;
+}
+
+.post-vote {
+  float: left;
+  margin-right: 3%;
+}
+
+.post-header {
+  width: 100%;
+  display: inline-block;
+}
+
+.post-footer {
+  width: 100%;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+.custom-alert-info {
+  margin: 0%;
+  margin-bottom: 15px !important;
+}
+
+.custom-alert-danger, .custom-alert-warning, .custom-alert-success {
+  margin: 0% !important;
+  margin-top: 15px !important;
+}
+
+.point-value {
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.vote-buttons {
+  margin: 0%;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+.header {
+  background-color: #3399ff;
+}
+
+.clicked-vote-up {
+  color: #3399ff;
+}
+
+.clicked-vote-down {
+  color: #ff471a
+}
+
+label > input {
+  visibility: hidden;
+  position: absolute;
+}
+label > input + i {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 97%;
+  }
+}
+
+@media only screen and (min-width : 769px) {
+  .container {
+    max-width: 65%;
+  }
+}

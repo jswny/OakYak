@@ -1,0 +1,74 @@
+<head>
+  <title>OakYak</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="panel panel-default">
+      <div class="panel-heading header">
+        <span class="glyphicon glyphicon-tree-deciduous" id="oak-tree" title="Info" aria-hidden="true"></span>
+        <strong>OakYak</strong>
+        <a id="version" href="#">v0.1.9</a>
+        {{#if login}}
+          {{> loginButtons}}
+        {{/if}}
+      </div>
+      <div class="panel-body">
+
+        {{#each customAlertsTop}}
+          {{> customAlert}}
+        {{/each}}
+
+        <div class="row">
+          <div class="col-lg-6 top-menu">
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" id="post-view-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Sort: {{sort}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a id="sort-hot" href="#">Hot</a></li>
+                  <li><a id="sort-new" href="#">New</a></li>
+                  {{#if isAdmin}}
+                    <li><a id="sort-status" href="#">Status</a></li>
+                    <li><a id="sort-all" href="#">All</a></li>
+                  {{/if}}
+                </ul>
+              </div>
+              <input type="text" id="post-input" name="text" class="form-control" placeholder="Type to post something"/>
+              <div class="input-group-btn">
+                <button id="new-post" type="button" class="btn btn-default">Post</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {{#if isAdmin}}
+          <div class="row">
+            <div class="col-lg-6 top-menu">
+              <div class="admin-buttons">
+                <form>
+                  Post Approval:
+                  <input type="checkbox" id="toggle-approval" name="toggle-approval" checked="{{postApproval}}">
+                </form>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+        {{#each customAlertsBottom}}
+          {{> customAlert}}
+        {{/each}}
+      </div>
+    </div>
+
+    {{#each posts}}
+      {{> post}}
+    {{/each}}
+
+  </div>
+</body>
